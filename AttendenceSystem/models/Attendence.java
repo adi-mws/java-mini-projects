@@ -10,22 +10,24 @@ enum AttendanceStatus {
 }
 
 public class Attendence {
-    Map<Student, String> subject_attendence = new HashMap<>();
-    LocalDate date;
-    Subject subject;
-    AttendanceStatus status;
+
+    private Map<Student, String> subject_attendence;
+    private LocalDate date;
+    private Subject subject;
+    private AttendanceStatus status;
 
     public Attendence(
             Map<Student, String> subject_attendence,
             Subject subject,
-            AttendanceStatus status) {
-        this.subject_attendence = subject_attendence;
+            LocalDate date) {
+
+        this.subject_attendence = new HashMap<>(subject_attendence);
         this.subject = subject;
-        this.status = status;
-        this.date = LocalDate.now();
+        this.status = AttendanceStatus.PENDING;
+        this.date = date;
     }
-    // Present count 
-    int presentCount() {
+
+    public int presentCount() {
         int count = 0;
         for (String value : subject_attendence.values()) {
             if ("P".equals(value)) {
@@ -34,11 +36,31 @@ public class Attendence {
         }
         return count;
     }
-    // Attendance percentange 
-    double getPercentage() {
+
+    public void updateStatus(String status) {
+        this.status = AttendanceStatus.valueOf(status);
+    }
+
+    public double getPercentage() {
         if (subject_attendence.isEmpty())
             return 0;
         return (presentCount() * 100.0) / subject_attendence.size();
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public String getStatus() {
+        return status.toString();
+    }
+
+    public Map<Student, String> getSubjectAttendence() {
+        return subject_attendence;
     }
 
     @Override

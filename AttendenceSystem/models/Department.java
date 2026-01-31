@@ -1,20 +1,25 @@
 package AttendenceSystem.models;
 
 public class Department {
-    String name;
-    int maxStudents;
+
+    private String name;
+    private int maxStudents;
 
     public Department(String name, int maxStudents) {
-        this.name = name; 
+        this.name = name;
         this.maxStudents = maxStudents;
     }
 
-    public int getMaxStudents() {
-        return this.maxStudents;
+    public String getName() {
+        return name;
     }
-    
+
+    public int getMaxStudents() {
+        return maxStudents;
+    }
+
     @Override
     public String toString() {
-        return name + " | "  +  maxStudents;
+        return name + " | max=" + maxStudents;
     }
 }
