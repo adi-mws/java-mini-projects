@@ -1,7 +1,8 @@
-package AttendenceSystem.services;
+package AttendanceSystem.services;
 
 import java.util.*;
-import AttendenceSystem.models.Department;
+
+import AttendanceSystem.models.Department;
 
 public class DepartmentService {
     List<Department> department_list = new ArrayList<>();

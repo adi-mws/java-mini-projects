@@ -1,4 +1,4 @@
-package AttendenceSystem.models;
+package AttendanceSystem.models;
 
 public class Department {
 

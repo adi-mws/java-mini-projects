@@ -1,7 +1,8 @@
-package AttendenceSystem.services;
+package AttendanceSystem.services;
 
-import AttendenceSystem.models.*;
 import java.util.*;
+
+import AttendanceSystem.models.*;
 
 public class StudentService {
 

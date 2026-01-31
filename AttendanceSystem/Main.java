@@ -1,4 +1,4 @@
-package AttendenceSystem;
+package AttendanceSystem;
 
 public class Main {
     

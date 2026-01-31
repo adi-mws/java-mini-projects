@@ -1,4 +1,4 @@
-package AttendenceSystem.models;
+package AttendanceSystem.models;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -9,27 +9,29 @@ enum AttendanceStatus {
     REUPLOADED
 }
 
-public class Attendence {
+// Per Lecture Attendance system
+public class Attendance {
 
-    private Map<Student, String> subject_attendence;
+    private Map<Student, String> subject_attendance;
     private LocalDate date;
     private Subject subject;
     private AttendanceStatus status;
 
-    public Attendence(
-            Map<Student, String> subject_attendence,
+    public Attendance(
+            Map<Student, String> subject_attendance,
             Subject subject,
             LocalDate date) {
 
-        this.subject_attendence = new HashMap<>(subject_attendence);
+        this.subject_attendance = new HashMap<>(subject_attendance);
         this.subject = subject;
         this.status = AttendanceStatus.PENDING;
         this.date = date;
     }
 
+    // Total attendance percent of the particular lecture
     public int presentCount() {
         int count = 0;
-        for (String value : subject_attendence.values()) {
+        for (String value : subject_attendance.values()) {
             if ("P".equals(value)) {
                 count++;
             }
@@ -37,14 +39,18 @@ public class Attendence {
         return count;
     }
 
-    public void updateStatus(String status) {
-        this.status = AttendanceStatus.valueOf(status);
+    public void uploadAttendance() {
+        this.status = AttendanceStatus.UPLOADED;
+    }
+
+    public void reuploadAttendance() {
+        this.status = AttendanceStatus.REUPLOADED;
     }
 
     public double getPercentage() {
-        if (subject_attendence.isEmpty())
+        if (subject_attendance.isEmpty())
             return 0;
-        return (presentCount() * 100.0) / subject_attendence.size();
+        return (presentCount() * 100.0) / subject_attendance.size();
     }
 
     public Subject getSubject() {
@@ -59,15 +65,15 @@ public class Attendence {
         return status.toString();
     }
 
-    public Map<Student, String> getSubjectAttendence() {
-        return subject_attendence;
+    public Map<Student, String> getSubjectAttendance() {
+        return subject_attendance;
     }
 
     @Override
     public String toString() {
         return "Date: " + date +
                 "\nSubject: " + subject +
-                "\nPresent: " + presentCount() + "/" + subject_attendence.size() +
+                "\nPresent: " + presentCount() + "/" + subject_attendance.size() +
                 "\nAttendance: " + String.format("%.2f", getPercentage()) + "%" +
                 "\nStatus: " + status;
     }
