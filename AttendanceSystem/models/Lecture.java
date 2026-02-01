@@ -38,8 +38,8 @@ public class Lecture {
         this.status = LectureStatus.SCHEDULED;
     }
 
-    public String getPeriod() {
-        return this.period.toString();
+    public Period getPeriod() {
+        return this.period;
     }
 
     // Lecture Status Upating Helpers

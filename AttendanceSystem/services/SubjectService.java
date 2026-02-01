@@ -2,13 +2,15 @@ package AttendanceSystem.services;
 
 import AttendanceSystem.models.Subject;
 import AttendanceSystem.models.Department;
+import AttendanceSystem.models.Professor;
+
 import java.util.*;
 
 public class SubjectService {
     private List<Subject> subject_list = new ArrayList<>();
 
-    public void addSubject(Department department, String name, int weightage) {
-        subject_list.add(new Subject(name, department, weightage));
+    public void addSubject(Department department, String name, Professor professor, int weightage) {
+        subject_list.add(new Subject(name, department, professor, weightage));
     }
     
     public Subject getSubjectByNameAndDepartment(String name, Department department) {

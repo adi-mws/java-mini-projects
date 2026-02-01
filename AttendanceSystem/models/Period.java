@@ -1,5 +1,6 @@
 package AttendanceSystem.models;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -20,10 +21,14 @@ public class Period {
         return this;
     }
 
+
     public LocalDateTime getStartTime() {
-        return startDateTIme
+        return startDateTime;
     }
 
+    public LocalDateTime getEndTime() {
+        return endDateTime;
+    }
     // We are not adding duration because it is subject-based attendance subject
     @Override
     public String toString() {
