@@ -1,13 +1,19 @@
 package AttendanceSystem.models;
 
-public class Department {
+import java.util.UUID;
 
+public class Department {
+    private UUID id;
     private String name;
     private int maxStudents;
-
     public Department(String name, int maxStudents) {
         this.name = name;
         this.maxStudents = maxStudents;
+        this.id = UUID.randomUUID();
+    }
+
+    public Department getById(UUID id) {
+        return this;
     }
 
     public String getName() {
@@ -20,6 +26,6 @@ public class Department {
 
     @Override
     public String toString() {
-        return name + " | max=" + maxStudents;
+        return "id: " +  id + " Name: " + name + " | Max Student = " + maxStudents;
     }
 }

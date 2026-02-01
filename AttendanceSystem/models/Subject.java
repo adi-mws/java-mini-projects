@@ -1,11 +1,13 @@
 package AttendanceSystem.models;
-
+import java.util.UUID;
 public class Subject {
+    private UUID id;
     private String name;
     private Department department;
+    private Professor professor; 
     private int hoursPerLecture;   
 
-    public Subject(String name, Department department, int hoursPerLecture) {
+    public Subject(String name, Department department, Professor professor, int hoursPerLecture) {
         if (name == null || department == null) {
             throw new IllegalArgumentException("Subject name and department cannot be null");
         }
@@ -14,12 +16,20 @@ public class Subject {
         }
 
         this.name = name;
+        this.professor = professor;
         this.department = department;
         this.hoursPerLecture = hoursPerLecture;
+        this.id = UUID.randomUUID();
     }
-
+    public Subject getById(UUID id) {
+        return this;
+    }
     public String getName() {
         return name;
+    }
+
+    public Professor getProfessor() {
+        return this.professor;
     }
 
     public Department getDepartment() {
@@ -32,6 +42,6 @@ public class Subject {
 
     @Override
     public String toString() {
-        return name + " | " + department + " | " + hoursPerLecture + " hrs";
+        return "id: " + id + " | " + "Name: " +  name + " | " + "Department: " +  department + " | " + "Hours Per Lecture: " +  hoursPerLecture + " hrs";
     }
 }

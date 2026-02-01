@@ -1,6 +1,9 @@
 package AttendanceSystem.models;
 
+import java.util.UUID;
+
 public class Student {
+    private UUID id;
 
     private String name;
     private int roll;
@@ -10,6 +13,11 @@ public class Student {
         this.name = name;
         this.roll = roll;
         this.department = department;
+        this.id = UUID.randomUUID();
+    }
+
+    public Student getById(UUID id) {
+        return this;
     }
 
     public String getName() {
@@ -26,6 +34,6 @@ public class Student {
 
     @Override
     public String toString() {
-        return roll + " | " + name + " | " + department;
+        return "id: " + id + " | " + "Roll : " + roll + " | " + "Name: " + name + " | " + "Department: " + department;
     }
 }
