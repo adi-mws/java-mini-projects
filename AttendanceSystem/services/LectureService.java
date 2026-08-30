@@ -1,6 +1,5 @@
 package AttendanceSystem.services;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.*;
@@ -9,6 +8,7 @@ import AttendanceSystem.models.Lecture;
 import AttendanceSystem.models.Student;
 import AttendanceSystem.models.Subject;
 import AttendanceSystem.models.Period;
+import AttendanceSystem.models.StudentAttendanceStatus;
 
 public class LectureService {
 
@@ -36,7 +36,7 @@ public class LectureService {
     }
 
     // Attendance services (creation and status updates)
-    public void saveAttendance(Lecture lecture, Map<Student, String> list) {
+    public void saveAttendance(Lecture lecture, Map<Student, StudentAttendanceStatus> list) {
         for (Lecture lect : lectures_list) {
             if (lect == lecture) {
                 lect.addAttendance(list);
@@ -48,32 +48,34 @@ public class LectureService {
         lecture.uploadAttendance();
     }
 
-    public void reuploadAttendance(Lecture lecture, Map<Student, String> list) {
+    public void reuploadAttendance(Lecture lecture, Map<Student, StudentAttendanceStatus> list) {
         boolean isUploaded = lecture.getAttendanceStatus().equals("UPLODED");
         if (isUploaded) {
             lecture.addAttendance(list);
             lecture.reuploadAttendance();
+            
         } else {
             throw new Error("Attendance is not uploaded");
         }
-
     }
-    // Lecture services helpers 
-    private int totalLectureCount() {
+
+    // Lecture services helpers
+    int totalLectureCount() {
         return this.lectures_list.size();
     }
-   private int totalLectureCountInMonth(YearMonth month) {
-    int count = 0;
 
-    for (Lecture lecture : lectures_list) {
-        LocalDateTime start = lecture.getPeriod().getStartTime();
+    int totalLectureCountInMonth(YearMonth month) {
+        int count = 0;
 
-        if (YearMonth.from(start).equals(month)) {
-            count++;
+        for (Lecture lecture : lectures_list) {
+            LocalDateTime start = lecture.getPeriod().getStartTime();
+
+            if (YearMonth.from(start).equals(month)) {
+                count++;
+            }
         }
+        return count;
     }
-    return count;
-}
 
     // Attendance services (statistics and reteriving data)
 

@@ -1,8 +1,8 @@
 package AttendanceSystem.models;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
-import java.time.LocalDate;
-import java.util.*;
 
 enum AttendanceStatus {
     PENDING,
@@ -18,10 +18,13 @@ enum LectureStatus {
     ACTIVE
 }
 
-// Per Lecture Attendance system
 public class Lecture {
+
     private UUID id;
-    private Map<Student, String> subject_attendance;
+
+    // Student -> PRESENT / ABSENT / NA
+    private Map<Student, StudentAttendanceStatus> attendance;
+
     private Subject subject;
     private AttendanceStatus attendanceStatus;
     private LectureStatus status;
@@ -31,7 +34,8 @@ public class Lecture {
             Subject subject,
             Period period) {
 
-        this.subject_attendance = new HashMap<>();
+        this.id = UUID.randomUUID();
+        this.attendance = new HashMap<>();
         this.subject = subject;
         this.attendanceStatus = AttendanceStatus.PENDING;
         this.period = period;
@@ -42,7 +46,8 @@ public class Lecture {
         return this.period;
     }
 
-    // Lecture Status Upating Helpers
+    // Lecture status update helpers
+
     public void rescheduleLecture() {
         this.status = LectureStatus.RESCHEDULED;
     }
@@ -59,19 +64,22 @@ public class Lecture {
         this.status = LectureStatus.COMPLETED;
     }
 
-    // Total attendance percent of the particular lecture
+    // Count present students
     public int presentCount() {
+
         int count = 0;
-        for (String value : subject_attendance.values()) {
-            if ("P".equals(value)) {
+
+        for (StudentAttendanceStatus value : attendance.values()) {
+            if (value == StudentAttendanceStatus.PRESENT) {
                 count++;
             }
         }
+
         return count;
     }
 
-    public void addAttendance(Map<Student, String> subject_attendance) {
-        this.subject_attendance = subject_attendance;
+    public void addAttendance(Map<Student, StudentAttendanceStatus> attendance) {
+        this.attendance = attendance;
     }
 
     public String getAttendanceStatus() {
@@ -87,34 +95,39 @@ public class Lecture {
     }
 
     public double getPercentage() {
-        if (subject_attendance.isEmpty())
+
+        if (attendance.isEmpty()) {
             return 0;
-        return (presentCount() * 100.0) / subject_attendance.size();
+        }
+
+        return (presentCount() * 100.0) / attendance.size();
     }
 
     public Subject getSubject() {
         return subject;
     }
 
+    public String getStudentAttendance(Student stud) {
+        return attendance.getOrDefault(stud, StudentAttendanceStatus.NA).toString();
+    }
+
     public String getStatus() {
         return status.toString();
     }
 
-    public Map<Student, String> getSubjectAttendance() {
-        return subject_attendance;
+    public Map<Student, StudentAttendanceStatus> getAttendance() {
+        return attendance;
     }
 
     @Override
     public String toString() {
-        return "id: " + id +
-                "Subject: " + subject +
-                "\nPresent: " + presentCount() + "/" + subject_attendance.size() +
-                "\nAttendance: " + String.format("%.2f", getPercentage()) + "%" +
-                "\nAttedance Status: " + attendanceStatus.toString() +
-                "\nLecture Status: " + this.status.toString();
+
+        return "ID: " + id +
+                "\nSubject: " + subject +
+                "\nPresent: " + presentCount() + "/" + attendance.size() +
+                "\nAttendance: " +
+                String.format("%.2f", getPercentage()) + "%" +
+                "\nAttendance Status: " + attendanceStatus +
+                "\nLecture Status: " + status;
     }
 }
-
-// date subject
-// 1/1/26 RDBMS (1)
-// 1/1/26 RDBMS (2)
